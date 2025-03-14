@@ -9,6 +9,7 @@ import Navbar from './Components/Navbar/Navbar';
 import LandingPage from "./Components/Landing_Page/LandingPage";
 import SignUp from "./Components/Sign_Up/SignUp"
 import Login from "./Components/Login/Login";
+import InstantConsultation from "./Components/InstantConsultationBooking/InstantConsultation";
 
 // Function component for the main App
 function App() {
@@ -28,9 +29,10 @@ function App() {
             {/* Define individual Route components for different pages */}
            
             <Route path="/SignUp" element={<SignUp />} />
-       {/*  <Route path="/appointments" element={<Appointments />} /> */}
+      {/*  <Route path="/appointments" element={<Appointments />} />  */}
         {/* <Route path="/health-blog" element={<HealthBlog />} />
         <Route path="/reviews" element={<Reviews />} /> */}
+        <Route path="/InstantConsultation" element={<InstantConsultation />} />
         <Route path="/Login" element={<Login />} />
             {/* Home Route - Landing Page */}
         <Route path="/" element={<LandingPage />} />

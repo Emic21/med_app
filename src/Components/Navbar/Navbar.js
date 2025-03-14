@@ -53,6 +53,12 @@ const Navbar = () => {
         <li className="link">
           <Link to="/reviews">Reviews</Link>
         </li>
+        {/* Add the Booking button here */}
+        <li className="link">
+          <Link to="/InstantConsultation">
+            <button className="btn1">Booking</button>
+          </Link>
+        </li>
         {isLoggedIn ? (
           <>
             <li className="link dropdown">
