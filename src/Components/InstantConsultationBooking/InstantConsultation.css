@@ -22,7 +22,7 @@
 }
 
 /* Styling for each doctor card */
-.search-results-container .doctorcard {
+.doctorcard {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -34,7 +34,7 @@
 }
 
 /* Heading for search results */
-.search-results-container > h2 {
+.search-results-container h2 {
     text-align: left;
     font-size: 24px;
     font-weight: 700;
@@ -42,7 +42,7 @@
 }
 
 /* Subheading for search results */
-.search-results-container > h3 {
+.search-results-container h3 {
     margin-top: 12px;
     color: #2d2d32;
     text-align: left;
@@ -207,4 +207,122 @@
 
 .consultation-form .cancel-btn:hover {
     background-color: #c82333;
+}
+
+/* Additional styles for the popup form */
+.popup-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.popup-form h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: #333;
+}
+
+.popup-form p {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.popup-form .rating {
+    color: #ffc107;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.popup-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.popup-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.popup-form button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.popup-form button[type="button"] {
+    background-color: #dc3545;
+}
+
+/* Add this to your CSS file */
+.popup-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.popup-form h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: #333;
+}
+
+.popup-form p {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.popup-form .rating {
+    color: #ffc107;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.popup-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.popup-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.popup-form button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.popup-form button[type="button"] {
+    background-color: #dc3545;
 }
