@@ -10,6 +10,7 @@ import LandingPage from "./Components/Landing_Page/LandingPage";
 import SignUp from "./Components/Sign_Up/SignUp"
 import Login from "./Components/Login/Login";
 import InstantConsultation from "./Components/InstantConsultationBooking/InstantConsultation";
+import FindDoctorSearchIC from "./Components/FindDoctorSearchIC/FindDoctorSearchIC"
 
 // Function component for the main App
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <Route path="/reviews" element={<Reviews />} /> */}
         <Route path="/InstantConsultation" element={<InstantConsultation />} />
         <Route path="/Login" element={<Login />} />
+        <Route path="/FindDoctorSearchIC" element={<FindDoctorSearchIC />} />
             {/* Home Route - Landing Page */}
         <Route path="/" element={<LandingPage />} />
         
