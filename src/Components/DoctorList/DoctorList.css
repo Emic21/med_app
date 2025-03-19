@@ -1,0 +1,26 @@
+/* Doctors List Container */
+.doctors-list-container {
+    padding: 20px;
+    text-align: center;
+  }
+  
+  /* Doctors List Grid */
+  .doctors-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  /* Doctor Card Styling (Optional, if you want to override DoctorCardIC.css) */
+  .doctor-card-container {
+    width: 100%;
+    max-width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }

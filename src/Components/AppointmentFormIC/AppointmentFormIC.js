@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import './AppointmentFormIC.css';
+import './AppointmentFormIC.css'; // Import CSS for styling
 
-const AppointmentFormIC = ({ doctorName, doctorSpeciality, onSubmit, onCancel }) => {
+const AppointmentFormIC = ({ doctorName, doctorSpeciality, onSubmit }) => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [isBooked, setIsBooked] = useState(false); // Track if an appointment is booked
 
   const handleSlotSelection = (slot) => {
     setSelectedSlot(slot);
@@ -29,18 +28,11 @@ const AppointmentFormIC = ({ doctorName, doctorSpeciality, onSubmit, onCancel })
     }
 
     setError('');
-    onSubmit({ name, phoneNumber, selectedSlot }); // Call the onSubmit function
+    onSubmit({ name, phoneNumber, selectedSlot });
     setName('');
     setPhoneNumber('');
     setSelectedSlot(null);
     setSuccessMessage('Appointment booked successfully!');
-    setIsBooked(true); // Mark appointment as booked
-  };
-
-  const handleCancel = () => {
-    onCancel(); // Call the onCancel function
-    setIsBooked(false); // Mark appointment as canceled
-    setSuccessMessage(''); // Clear success message
   };
 
   return (
@@ -57,7 +49,6 @@ const AppointmentFormIC = ({ doctorName, doctorSpeciality, onSubmit, onCancel })
           onChange={(e) => setName(e.target.value)}
           required
           aria-label="Enter your name"
-          disabled={isBooked} // Disable input if appointment is booked
         />
       </div>
 
@@ -70,7 +61,6 @@ const AppointmentFormIC = ({ doctorName, doctorSpeciality, onSubmit, onCancel })
           onChange={(e) => setPhoneNumber(e.target.value)}
           required
           aria-label="Enter your phone number"
-          disabled={isBooked} // Disable input if appointment is booked
         />
       </div>
 
@@ -84,7 +74,6 @@ const AppointmentFormIC = ({ doctorName, doctorSpeciality, onSubmit, onCancel })
               className={`time-slot ${selectedSlot === slot ? 'selected' : ''}`}
               onClick={() => handleSlotSelection(slot)}
               aria-label={`Select ${slot}`}
-              disabled={isBooked} // Disable time slot selection if appointment is booked
             >
               {slot}
             </button>
@@ -95,20 +84,9 @@ const AppointmentFormIC = ({ doctorName, doctorSpeciality, onSubmit, onCancel })
       {error && <p className="error-message">{error}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
 
-      {!isBooked ? (
-        <button type="submit" className="submit-button">
-          Book Now
-        </button>
-      ) : (
-        <button
-          type="button"
-          className="cancel-button"
-          onClick={handleCancel}
-          aria-label="Cancel Appointment"
-        >
-          Cancel Appointment
-        </button>
-      )}
+      <button type="submit" className="submit-button">
+        Book Now
+      </button>
     </form>
   );
 };

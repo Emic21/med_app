@@ -9,8 +9,13 @@ import Navbar from './Components/Navbar/Navbar';
 import LandingPage from "./Components/Landing_Page/LandingPage";
 import SignUp from "./Components/Sign_Up/SignUp"
 import Login from "./Components/Login/Login";
-import InstantConsultation from "./Components/InstantConsultationBooking/InstantConsultation";
-import FindDoctorSearchIC from "./Components/FindDoctorSearchIC/FindDoctorSearchIC"
+import InstantConsultation from "./Components/InstantConsultation/InstantConsultation";
+import FindDoctorSearchIC from "./Components/FindDoctorSearchIC/FindDoctorSearchIC";
+import DoctorCardIC from "./Components/DoctorCardIC/DoctorCardIC";
+import AppointmentFormIC from "./Components/AppointmentFormIC/AppointmentFormIC";
+import DoctorsList from "./Components/DoctorList/DoctorList";
+
+
 
 // Function component for the main App
 function App() {
@@ -30,12 +35,15 @@ function App() {
             {/* Define individual Route components for different pages */}
            
             <Route path="/SignUp" element={<SignUp />} />
-      {/*  <Route path="/appointments" element={<Appointments />} />  */}
+      <Route path="/AppointmentFormIC" element={<AppointmentFormIC />} />  
         {/* <Route path="/health-blog" element={<HealthBlog />} />
         <Route path="/reviews" element={<Reviews />} /> */}
         <Route path="/InstantConsultation" element={<InstantConsultation />} />
-        <Route path="/Login" element={<Login />} />
         <Route path="/FindDoctorSearchIC" element={<FindDoctorSearchIC />} />
+        <Route path="/DoctorCardIC" element={<DoctorCardIC />} />
+        <Route path="/DoctorList" element={<DoctorsList />} />
+        <Route path="/Login" element={<Login />} />
+        
             {/* Home Route - Landing Page */}
         <Route path="/" element={<LandingPage />} />
         

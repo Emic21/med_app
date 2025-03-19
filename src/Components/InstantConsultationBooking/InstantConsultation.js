@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import './InstantConsultation.css';
 import { useSearchParams } from 'react-router-dom';
-import FindDoctorSearchIC  from '../FindDoctorSearchIC/FindDoctorSearchIC';
-import "../FindDoctorSearchIC/FindDoctorSearchIC.css"
+import FindDoctorSearchIC  from './FindDoctorSearchIC/FindDoctorSearchIC';
+import "./FindDoctorSearchIC/FindDoctorSearchIC.css"
 import DoctorCardIC from './DoctorCardIC/DoctorCardIC';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
+
 
 
 const InstantConsultation = () => {
