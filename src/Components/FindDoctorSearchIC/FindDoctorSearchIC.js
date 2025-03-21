@@ -35,6 +35,12 @@ const FindDoctorSearchIC = () => {
     setSpecialities(filteredSpecialities);
   };
 
+  const handleKeyDown = (e, speciality) => {
+    if (e.key === 'Enter') {
+      handleDoctorSelect(speciality);
+    }
+  };
+
   return (
     <div className="finddoctor">
       <center>
@@ -75,6 +81,7 @@ const FindDoctorSearchIC = () => {
                     className="search-doctor-result-item"
                     key={speciality}
                     onMouseDown={() => handleDoctorSelect(speciality)}
+                    onKeyDown={(e) => handleKeyDown(e, speciality)}
                     role="button"
                     tabIndex={0}
                     aria-label={`Select ${speciality}`}

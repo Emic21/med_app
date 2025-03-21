@@ -13,7 +13,7 @@ import InstantConsultation from "./Components/InstantConsultation/InstantConsult
 import FindDoctorSearchIC from "./Components/FindDoctorSearchIC/FindDoctorSearchIC";
 import DoctorCardIC from "./Components/DoctorCardIC/DoctorCardIC";
 import AppointmentFormIC from "./Components/AppointmentFormIC/AppointmentFormIC";
-import DoctorsList from "./Components/DoctorList/DoctorList";
+
 
 
 
@@ -41,7 +41,6 @@ function App() {
         <Route path="/InstantConsultation" element={<InstantConsultation />} />
         <Route path="/FindDoctorSearchIC" element={<FindDoctorSearchIC />} />
         <Route path="/DoctorCardIC" element={<DoctorCardIC />} />
-        <Route path="/DoctorList" element={<DoctorsList />} />
         <Route path="/Login" element={<Login />} />
         
             {/* Home Route - Landing Page */}

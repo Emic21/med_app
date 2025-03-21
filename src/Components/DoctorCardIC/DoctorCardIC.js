@@ -5,6 +5,21 @@ import './DoctorCardIC.css';
 import AppointmentFormIC from '../AppointmentFormIC/AppointmentFormIC';
 import { v4 as uuidv4 } from 'uuid';
 
+// SVG Icon for Profile Picture
+const ProfileIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="46"
+    height="46"
+    fill="currentColor"
+    className="bi bi-person-fill"
+    viewBox="0 0 16 16"
+    aria-hidden="true"
+  >
+    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+  </svg>
+);
+
 const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => {
   const [showModal, setShowModal] = useState(false);
   const [appointments, setAppointments] = useState([]);
@@ -27,7 +42,6 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
     setShowModal(false);
   };
 
-  // Function to handle cancellation of the current appointment
   const handleCancelAppointment = () => {
     setAppointments([]); // Clear the appointments
     setShowModal(false); // Close the modal
@@ -37,16 +51,7 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
     <div className="doctor-card-container">
       <div className="doctor-card-details-container">
         <div className="doctor-card-profile-image-container">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="46"
-            height="46"
-            fill="currentColor"
-            className="bi bi-person-fill"
-            viewBox="0 0 16 16"
-          >
-            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-          </svg>
+          <ProfileIcon />
         </div>
         <div className="doctor-card-details">
           <div className="doctor-card-detail-name">{name}</div>
@@ -73,21 +78,20 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
           open={showModal}
           onClose={() => setShowModal(false)}
           contentStyle={{ padding: '20px', borderRadius: '8px', maxWidth: '500px', width: '90%' }}
+          closeOnDocumentClick={false}
         >
           {(close) => (
             <div className="doctorbg">
               <div className="modal-header">
+                <button
+                  className="modal-close-btn"
+                  onClick={close}
+                  aria-label="Close Modal"
+                >
+                  &times;
+                </button>
                 <div className="doctor-card-profile-image-container">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="46"
-                    height="46"
-                    fill="currentColor"
-                    className="bi bi-person-fill"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                  </svg>
+                  <ProfileIcon />
                 </div>
                 <div className="doctor-card-details">
                   <div className="doctor-card-detail-name">{name}</div>
@@ -118,8 +122,8 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
                 <AppointmentFormIC
                   doctorName={name}
                   doctorSpeciality={speciality}
-                  onSubmit={handleFormSubmit} // Pass the onSubmit function
-                  onCancel={handleCancelAppointment} // Pass the onCancel function
+                  onSubmit={handleFormSubmit}
+                  onCancel={handleCancelAppointment}
                 />
               )}
             </div>
