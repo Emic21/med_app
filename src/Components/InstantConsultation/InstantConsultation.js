@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import './InstantConsultation.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import FindDoctorSearchIC from '../FindDoctorSearchIC/FindDoctorSearchIC';
 import DoctorCardIC from '../DoctorCardIC/DoctorCardIC';
 
 const API_URL = 'https://api.npoint.io/9a5543d36f1460da2f63'; // Replace with your API endpoint
@@ -36,20 +37,26 @@ const InstantConsultation = () => {
 
   // Filter doctors based on speciality or location
   const filterDoctors = (doctorsList, query) => {
+    if (!doctorsList || !Array.isArray(doctorsList)) return; // Ensure doctorsList is an array
     const lowerCaseQuery = query.toLowerCase();
     const filtered = doctorsList.filter(
       (doctor) =>
-        doctor.speciality.toLowerCase().includes(lowerCaseQuery) ||
-        doctor.location.toLowerCase().includes(lowerCaseQuery)
+        (doctor.speciality && doctor.speciality.toLowerCase().includes(lowerCaseQuery)) ||
+        (doctor.location && doctor.location.toLowerCase().includes(lowerCaseQuery))
     );
     setFilteredDoctors(filtered);
   };
 
   // Handle search input change
-  const handleSearchChange = (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
+  const handleSearchChange = (query) => {
+    setSearchQuery(query); // Update the search query state
     filterDoctors(doctors, query); // Filter doctors based on the search query
+  };
+
+  // Handle selection of a specialty from FindDoctorSearchIC
+  const handleSpecialtySelect = (speciality) => {
+    setSearchQuery(speciality); // Update the search query state
+    filterDoctors(doctors, speciality); // Filter doctors based on the selected specialty
   };
 
   useEffect(() => {
@@ -60,47 +67,38 @@ const InstantConsultation = () => {
     }
   }, [getDoctorsDetails, navigate, searchParams]);
 
+  if (isLoading) {
+    return (
+      <div className="loading-spinner">
+        <div className="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <p className="error-message">{error}</p>;
+  }
+
   return (
     <center>
       <div className="searchpage-container">
         {/* Search Bar */}
         <div className="search-bar">
-          <div className="search-input-container">
-            <input
-              type="text"
-              placeholder="Search doctors by speciality or location..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-              aria-label="Search doctors"
-            />
-            {/* SVG Search Icon */}
-            <svg
-              className="search-icon"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-            >
-              <path d="M10 2a8 8 0 105.293 14.707l4.707 4.707 1.414-1.414-4.707-4.707A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z" />
-            </svg>
-          </div>
+          <FindDoctorSearchIC
+            onSearch={handleSearchChange} // Pass the search handler
+            onSpecialtySelect={handleSpecialtySelect} // Pass the specialty selection handler
+          />
+          {searchQuery && <p>Searching for: {searchQuery}</p>}
         </div>
-
         <div className="search-results-container">
-          {isLoading ? (
-            <div className="loading-spinner">
-              <div className="spinner"></div>
-              <p>Loading...</p>
-            </div>
-          ) : error ? (
-            <p className="error-message">{error}</p>
-          ) : filteredDoctors.length > 0 ? (
+          {filteredDoctors.length > 0 ? (
             <>
               <h2>{filteredDoctors.length} doctors are available</h2>
               <h3>Book appointments with minimum wait-time & verified doctor details</h3>
               {filteredDoctors.map((doctor) => (
                 <DoctorCardIC
-                  key={doctor.id}
+                  key={doctor.id} // Add a unique key
                   name={doctor.name}
                   speciality={doctor.speciality}
                   experience={doctor.experience}

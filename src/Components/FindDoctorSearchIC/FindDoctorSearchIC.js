@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './FindDoctorSearchIC.css';
-import { useNavigate } from 'react-router-dom';
 
 const initSpeciality = [
   'Dentist',
@@ -12,16 +11,16 @@ const initSpeciality = [
   'Ayurveda',
 ];
 
-const FindDoctorSearchIC = () => {
+const FindDoctorSearchIC = ({ onSearch, onSpecialtySelect }) => {
   const [doctorResultHidden, setDoctorResultHidden] = useState(true);
   const [searchDoctor, setSearchDoctor] = useState('');
   const [specialities, setSpecialities] = useState(initSpeciality);
-  const navigate = useNavigate();
 
   const handleDoctorSelect = (speciality) => {
     setSearchDoctor(speciality);
     setDoctorResultHidden(true);
-    navigate(`/instant-consultation?speciality=${speciality}`);
+    onSearch(speciality); // Pass the search query to the parent component
+    onSpecialtySelect(speciality); // Pass the selected specialty to the parent component
   };
 
   const handleSearchChange = (e) => {
@@ -33,6 +32,9 @@ const FindDoctorSearchIC = () => {
       speciality.toLowerCase().includes(query.toLowerCase())
     );
     setSpecialities(filteredSpecialities);
+
+    // Pass the search query to the parent component
+    onSearch(query);
   };
 
   const handleKeyDown = (e, speciality) => {

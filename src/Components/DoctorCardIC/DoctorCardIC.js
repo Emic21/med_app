@@ -31,6 +31,7 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
   const handleCancel = (appointmentId) => {
     const updatedAppointments = appointments.filter((appointment) => appointment.id !== appointmentId);
     setAppointments(updatedAppointments);
+    alert('Appointment canceled successfully!');
   };
 
   const handleFormSubmit = (appointmentData) => {
@@ -39,7 +40,8 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
       ...appointmentData,
     };
     setAppointments([...appointments, newAppointment]);
-    setShowModal(false);
+    alert('Appointment booked successfully!');
+    // Do not close the modal here
   };
 
   const handleCancelAppointment = () => {
@@ -108,6 +110,8 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
                     <div className="bookedInfo" key={appointment.id}>
                       <p>Name: {appointment.name}</p>
                       <p>Phone Number: {appointment.phoneNumber}</p>
+                      <p>Date: {appointment.date}</p>
+                      <p>Time Slot: {appointment.slot}</p>
                       <button
                         className="cancel-btn"
                         onClick={() => handleCancel(appointment.id)}
@@ -124,6 +128,7 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
                   doctorSpeciality={speciality}
                   onSubmit={handleFormSubmit}
                   onCancel={handleCancelAppointment}
+                  availableSlots={['10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM']}
                 />
               )}
             </div>
