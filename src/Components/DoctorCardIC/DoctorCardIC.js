@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import './DoctorCardIC.css';
@@ -24,29 +24,87 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
   const [showModal, setShowModal] = useState(false);
   const [appointments, setAppointments] = useState([]);
 
+  // Memoize the getAppointments function to prevent unnecessary recreations
+  const getAppointments = useCallback(() => {
+    const stored = localStorage.getItem('doctorAppointments');
+    const allAppointments = stored ? JSON.parse(stored) : [];
+    return allAppointments.filter(app => app.doctorName === name);
+  }, [name]);
+
+  // Save appointments to localStorage
+  const saveAppointments = useCallback((apps) => {
+    localStorage.setItem('doctorAppointments', JSON.stringify(apps));
+  }, []);
+
+  // Load appointments on component mount and when name changes
+  useEffect(() => {
+    setAppointments(getAppointments());
+  }, [getAppointments]); // Now properly includes all dependencies
+
   const handleBooking = () => {
     setShowModal(true);
   };
 
-  const handleCancel = (appointmentId) => {
-    const updatedAppointments = appointments.filter((appointment) => appointment.id !== appointmentId);
-    setAppointments(updatedAppointments);
-    alert('Appointment canceled successfully!');
-  };
+  const handleCancel = useCallback((appointmentId) => {
+    const allAppointments = getAppointments();
+    const appointmentToCancel = allAppointments.find(app => app.id === appointmentId);
+    const updatedAppointments = allAppointments.filter(app => app.id !== appointmentId);
 
-  const handleFormSubmit = (appointmentData) => {
+    // Update local storage
+    const allDocsAppointments = JSON.parse(localStorage.getItem('doctorAppointments') || '[]');
+    const updatedAllAppointments = allDocsAppointments.filter(app => app.id !== appointmentId);
+    saveAppointments(updatedAllAppointments);
+
+    // Update state
+    setAppointments(updatedAppointments);
+
+    // Dispatch cancellation event
+    window.dispatchEvent(new CustomEvent('appointmentUpdated', {
+      detail: {
+        action: 'cancelled',
+        appointmentData: {
+          ...appointmentToCancel,
+          status: 'cancelled',
+          cancelledAt: new Date().toISOString()
+        }
+      }
+    }));
+
+    alert('Appointment canceled successfully!');
+  }, [getAppointments, saveAppointments]);
+
+  const handleFormSubmit = useCallback((appointmentData) => {
     const newAppointment = {
       id: uuidv4(),
+      doctorName: name,
+      doctorSpeciality: speciality,
       ...appointmentData,
+      status: 'confirmed',
+      bookedAt: new Date().toISOString()
     };
-    setAppointments([...appointments, newAppointment]);
+
+    // Update local storage
+    const allAppointments = JSON.parse(localStorage.getItem('doctorAppointments') || []);
+    const updatedAppointments = [...allAppointments, newAppointment];
+    saveAppointments(updatedAppointments);
+
+    // Update state
+    setAppointments(prev => [...prev, newAppointment]);
+
+    // Dispatch booking event
+    window.dispatchEvent(new CustomEvent('appointmentUpdated', {
+      detail: {
+        action: 'booked',
+        appointmentData: newAppointment
+      }
+    }));
+
     alert('Appointment booked successfully!');
-    // Do not close the modal here
-  };
+  }, [name, speciality, saveAppointments]);
 
   const handleCancelAppointment = () => {
-    setAppointments([]); // Clear the appointments
-    setShowModal(false); // Close the modal
+    setAppointments([]);
+    setShowModal(false);
   };
 
   return (
@@ -64,7 +122,6 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
       </div>
 
       <div className="doctor-card-options-container">
-        {/* Book Appointment Button */}
         <button
           className={`book-appointment-btn ${appointments.length > 0 ? 'cancel-appointment' : ''}`}
           onClick={handleBooking}
@@ -74,7 +131,6 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
           <div>No Booking Fee</div>
         </button>
 
-        {/* Popup for Booking/Canceling Appointments */}
         <Popup
           modal
           open={showModal}
