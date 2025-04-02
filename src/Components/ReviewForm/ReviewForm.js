@@ -11,6 +11,7 @@ const ReviewForm = () => {
 
   const API_URL = 'https://api.npoint.io/9a5543d36f1460da2f63';
 
+  // Enhanced fetch with data validation
   const fetchDoctors = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -18,28 +19,54 @@ const ReviewForm = () => {
       
       const response = await fetch(API_URL);
       
-      if (!response.ok) {
-        throw new Error(`Failed to fetch doctors. Status: ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`Failed to fetch doctors. Status: ${response.status}`);
 
       const data = await response.json();
       
-      if (!Array.isArray(data)) {
-        throw new Error('Expected an array of doctors');
-      }
+      if (!Array.isArray(data)) throw new Error('Expected an array of doctors');
 
-      // Load individual reviews for each doctor
-      const doctorsWithReviews = data.map(doctor => {
-        const storedReview = localStorage.getItem(`doctor-${doctor.id}-review`);
-        return {
-          ...doctor,
-          review: storedReview ? JSON.parse(storedReview).review : null,
-          rating: storedReview ? JSON.parse(storedReview).rating : null,
-          lastReviewed: storedReview ? JSON.parse(storedReview).lastReviewed : null
-        };
+      const validatedDoctors = data.map(doctor => {
+        // Validate doctor object structure
+        if (!doctor.id || typeof doctor.id !== 'string') {
+          console.warn('Doctor missing ID, generating one');
+          doctor.id = `doc-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+        }
+
+        if (!doctor.name || typeof doctor.name !== 'string') {
+          doctor.name = 'Unknown Doctor';
+        }
+
+        if (!doctor.speciality || typeof doctor.speciality !== 'string') {
+          doctor.speciality = 'General';
+        }
+
+        // Load review with validation
+        const reviewKey = `doctor-${doctor.id}-review`;
+        const storedReview = localStorage.getItem(reviewKey);
+        
+        try {
+          const reviewData = storedReview ? JSON.parse(storedReview) : null;
+          return {
+            ...doctor,
+            review: reviewData?.review || null,
+            rating: reviewData?.rating || null,
+            lastReviewed: reviewData?.lastReviewed || null,
+            reviewerName: reviewData?.reviewerName || null
+          };
+        } catch (e) {
+          console.error('Invalid review data for', doctor.name, 'resetting');
+          localStorage.removeItem(reviewKey);
+          return {
+            ...doctor,
+            review: null,
+            rating: null,
+            lastReviewed: null,
+            reviewerName: null
+          };
+        }
       });
 
-      setDoctors(doctorsWithReviews);
+      setDoctors(validatedDoctors);
     } catch (err) {
       console.error('Error fetching doctors:', err);
       setApiError(err.message);
@@ -51,44 +78,79 @@ const ReviewForm = () => {
 
   useEffect(() => {
     fetchDoctors();
+    
+    // Add event listener for storage changes
+    const handleStorageChange = () => {
+      fetchDoctors();
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, [fetchDoctors]);
 
+  // Enhanced review submission with validation
   const handleReviewSubmit = async (reviewData) => {
+    if (!reviewData?.doctorId) {
+      console.error('Submission error: Missing doctorId');
+      setApiError('Invalid review submission');
+      return;
+    }
+
     setIsSubmitting(true);
     setApiError(null);
     
     try {
-      // Update ONLY the specific doctor that was reviewed
-      const updatedDoctors = doctors.map(doctor => 
-        doctor.id === reviewData.doctorId
-          ? {
-              ...doctor,
-              review: reviewData.review,
-              rating: reviewData.rating,
-              lastReviewed: new Date().toISOString()
-            }
-          : doctor
-      );
+      // Validate all required fields
+      if (!reviewData.review || !reviewData.rating || !reviewData.reviewerName) {
+        throw new Error('All review fields are required');
+      }
 
-      // Store only this doctor's review
-      localStorage.setItem(
-        `doctor-${reviewData.doctorId}-review`,
-        JSON.stringify({
-          review: reviewData.review,
-          rating: reviewData.rating,
-          lastReviewed: new Date().toISOString()
-        })
-      );
+      if (reviewData.rating < 1 || reviewData.rating > 5) {
+        throw new Error('Invalid rating value');
+      }
+
+      if (reviewData.review.length < 10) {
+        throw new Error('Review must be at least 10 characters');
+      }
+
+      const doctorIndex = doctors.findIndex(d => d.id === reviewData.doctorId);
+      if (doctorIndex === -1) throw new Error('Doctor not found');
+
+      const updatedDoctors = [...doctors];
+      updatedDoctors[doctorIndex] = {
+        ...updatedDoctors[doctorIndex],
+        review: reviewData.review,
+        rating: reviewData.rating,
+        lastReviewed: new Date().toISOString(),
+        reviewerName: reviewData.reviewerName
+      };
+
+      // Store with validation
+      const storageKey = `doctor-${reviewData.doctorId}-review`;
+      const reviewToStore = {
+        review: reviewData.review,
+        rating: reviewData.rating,
+        lastReviewed: new Date().toISOString(),
+        reviewerName: reviewData.reviewerName
+      };
+      
+      localStorage.setItem(storageKey, JSON.stringify(reviewToStore));
+      
+      // Verify write was successful
+      const stored = localStorage.getItem(storageKey);
+      if (!stored) throw new Error('Failed to save review');
 
       setDoctors(updatedDoctors);
       setSelectedDoctor(null);
     } catch (err) {
+      console.error('Review submission error:', err);
       setApiError(err.message);
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  // Render loading state
   if (isLoading) {
     return (
       <div className="loading-screen">
@@ -98,6 +160,7 @@ const ReviewForm = () => {
     );
   }
 
+  // Render error state
   if (apiError) {
     return (
       <div className="api-error">
@@ -108,6 +171,7 @@ const ReviewForm = () => {
     );
   }
 
+  // Render empty state
   if (doctors.length === 0) {
     return (
       <div className="no-doctors">
@@ -125,10 +189,10 @@ const ReviewForm = () => {
         <table className="doctors-table">
           <thead>
             <tr>
-              <th>No.</th>
+              <th>Serial Number</th>
               <th>Doctor Name</th>
               <th>Speciality</th>
-              <th>Feedback</th>
+              <th>Provide Feedback</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -136,15 +200,16 @@ const ReviewForm = () => {
             {doctors.map((doctor, index) => (
               <tr key={doctor.id}>
                 <td>{index + 1}</td>
-                <td>Dr. {doctor.name}</td>
+                <td>{doctor.name}</td>
                 <td>{doctor.speciality}</td>
                 <td>
                   <button
                     onClick={() => setSelectedDoctor(doctor)}
                     className={`feedback-btn ${doctor.review ? 'disabled' : ''}`}
                     disabled={isSubmitting || doctor.review}
+                    aria-label={doctor.review ? `View feedback for Dr. ${doctor.name}` : `Give feedback to Dr. ${doctor.name}`}
                   >
-                    {doctor.review ? 'View Feedback' : 'Give Feedback'}
+                    {doctor.review ? 'View Feedback' : 'Click Here'}
                   </button>
                 </td>
                 <td>
@@ -175,6 +240,7 @@ const ReviewForm = () => {
           loading={isSubmitting}
           initialReview={selectedDoctor.review || ''}
           initialRating={selectedDoctor.rating || 0}
+          initialReviewerName={selectedDoctor.reviewerName || ''}
         />
       )}
     </div>

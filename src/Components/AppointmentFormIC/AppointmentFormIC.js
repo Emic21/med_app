@@ -101,6 +101,7 @@ const AppointmentFormIC = ({
   };
 
   return (
+    <div className="appointment-form-container">
     <form onSubmit={handleSubmit} className="appointment-form" noValidate>
       <h2>Book Appointment with {doctorName}</h2>
       <p className="speciality-text">Speciality: {doctorSpeciality}</p>
@@ -218,6 +219,7 @@ const AppointmentFormIC = ({
         </button>
       </div>
     </form>
+    </div>
   );
 };
 

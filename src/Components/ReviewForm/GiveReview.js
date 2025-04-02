@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import './GiveReview.css';
 
 const GiveReview = ({ 
@@ -7,15 +8,30 @@ const GiveReview = ({
   onSubmit, 
   loading,
   initialReview = '',
-  initialRating = 0 
+  initialRating = 0,
+  initialReviewerName = ''
 }) => {
   const [review, setReview] = useState(initialReview);
   const [rating, setRating] = useState(initialRating);
+  const [reviewerName, setReviewerName] = useState(initialReviewerName);
   const [error, setError] = useState('');
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError('');
     
+    // Validate all fields
+    if (!reviewerName.trim()) {
+      setError('Please enter your name');
+      return;
+    }
+
     if (rating === 0) {
       setError('Please select a rating');
       return;
@@ -31,12 +47,19 @@ const GiveReview = ({
       return;
     }
 
-    setError('');
-    onSubmit({ 
-      review: review.trim(), 
-      rating,
-      doctorId: doctor.id // CRUCIAL: Pass the specific doctor's ID
-    });
+    if (!doctor?.id) {
+      setError('Invalid doctor information');
+      return;
+    }
+
+    if (isMounted) {
+      onSubmit({ 
+        review: review.trim(), 
+        rating,
+        reviewerName: reviewerName.trim(),
+        doctorId: doctor.id
+      });
+    }
   };
 
   return (
@@ -54,12 +77,22 @@ const GiveReview = ({
         <div className="doctor-info">
           <h2>Review for Dr. {doctor.name}</h2>
           <p className="speciality">{doctor.speciality}</p>
-          {doctor.experience && (
-            <p className="experience">{doctor.experience} years of experience</p>
-          )}
         </div>
         
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
+          <div className="form-group">
+            <label htmlFor="reviewer-name">Your Name:</label>
+            <input
+              type="text"
+              id="reviewer-name"
+              value={reviewerName}
+              onChange={(e) => setReviewerName(e.target.value)}
+              placeholder="Enter your name"
+              disabled={loading}
+              required
+            />
+          </div>
+
           <div className="form-group">
             <label htmlFor="rating">Your Rating:</label>
             <div className="star-rating">
@@ -73,6 +106,7 @@ const GiveReview = ({
                     checked={rating === star}
                     onChange={() => setRating(star)}
                     className="visually-hidden"
+                    disabled={loading}
                   />
                   <label
                     htmlFor={`star-${star}`}
@@ -96,6 +130,8 @@ const GiveReview = ({
               rows="5"
               disabled={loading}
               aria-describedby="review-help"
+              required
+              minLength="10"
             />
             <small id="review-help">Be honest and specific about your experience</small>
           </div>
@@ -135,6 +171,20 @@ const GiveReview = ({
       </div>
     </div>
   );
+};
+
+GiveReview.propTypes = {
+  doctor: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    speciality: PropTypes.string.isRequired
+  }).isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  initialReview: PropTypes.string,
+  initialRating: PropTypes.number,
+  initialReviewerName: PropTypes.string
 };
 
 export default GiveReview;

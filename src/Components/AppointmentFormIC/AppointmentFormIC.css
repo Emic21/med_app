@@ -1,74 +1,216 @@
+/* AppointmentFormIC.css */
+
+/* Center the form on the page */
+.appointment-form-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* Form styling */
 .appointment-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 30px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.appointment-form h2 {
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+  font-size: 1.5rem;
+}
+
+.speciality-text {
+  color: #7f8c8d;
+  margin: 0 0 20px 0;
+  font-size: 1rem;
+}
+
+/* Form groups */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.95rem;
+}
+
+/* Input fields */
+input,
+select {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.hint-text {
+  color: #7f8c8d;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+/* Time slots */
+.time-slots {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.time-slot {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.time-slot:hover {
+  background-color: #e9ecef;
+}
+
+.time-slot.selected {
+  background-color: #3498db;
+  color: white;
+  border-color: #3498db;
+}
+
+.no-slots-message {
+  color: #95a5a6;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* Messages */
+.error-message {
+  color: #e74c3c;
+  background-color: #fadbd8;
+  padding: 10px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.success-message {
+  color: #27ae60;
+  background-color: #d5f5e3;
+  padding: 10px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+/* Form actions */
+.form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.submit-button {
+  background-color: #3498db; /* Blue color */
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  flex: 1;
+}
+
+.submit-button:hover:not(:disabled) {
+  background-color: #2980b9; /* Darker blue on hover */
+}
+
+.cancel-button {
+  background-color: #e74c3c; /* Red color */
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  flex: 1;
+}
+
+.cancel-button:hover:not(:disabled) {
+  background-color: #c0392b; /* Darker red on hover */
+}
+
+.submit-button:disabled,
+.cancel-button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+/* Loading spinner */
+.loading-spinner.small {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .appointment-form {
     padding: 20px;
-    max-height: 70vh; /* Set a maximum height */
-    overflow-y: auto; /* Add scroll if content exceeds height */
   }
   
-  .form-group {
-    display: flex;
+  .form-actions {
     flex-direction: column;
-    gap: 10px;
-  }
-  
-  .time-slots {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  
-  .time-slot {
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f8f9fa;
-    cursor: pointer;
-    text-align: center;
-    font-size: 0.9rem;
-    color: #333;
-    transition: all 0.3s ease;
-  }
-  
-  .time-slot.selected {
-    background-color: #007bff;
-    color: #fff;
-    border-color: #007bff;
-  }
-  
-  .time-slot:hover {
-    background-color: #e9ecef;
-    border-color: #007bff;
-  }
-  
-  .no-slots-message {
-    color: #888;
-    font-size: 0.9rem;
   }
   
   .submit-button,
   .cancel-button {
-    display: grid;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
+    width: 100%;
   }
-  
-  .submit-button {
-    background-color: #007bff;
-    color: #fff;
-  }
-  
-  .submit-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-  
-  .cancel-button {
-    background-color: #dc3545;
-    color: #fff;
-    margin-top: 10px;
-  }
+}
