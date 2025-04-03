@@ -52,7 +52,7 @@
 
 /* Styles for buttons */
 .btn {
-    padding: 10px 20px; /* Padding inside buttons */
+    padding: 10px 10px; /* Padding inside buttons */
     font-size: 16px; /* Font size of buttons */
     border: none; /* No border for buttons */
     border-radius: 4px; /* Border radius for rounded corners on buttons */

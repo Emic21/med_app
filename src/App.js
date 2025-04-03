@@ -19,7 +19,6 @@ import ReviewForm from "./Components/ReviewForm/ReviewForm";
 
 
 
-
 // Function component for the main App
 function App() {
 
@@ -44,6 +43,7 @@ function App() {
         <Route path="/InstantConsultation" element={<InstantConsultation />} />
         <Route path="/FindDoctorSearchIC" element={<FindDoctorSearchIC />} />
         <Route path="/DoctorCardIC" element={<DoctorCardIC />} />
+        {/* <Route path="/profile" element={<ProfileCard />} /> */}
         <Route path="/Login" element={<Login />} />
         
             {/* Home Route - Landing Page */}

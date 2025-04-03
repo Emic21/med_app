@@ -104,7 +104,7 @@
 /* Styles for buttons in the signup form */
 .btn {
     display: flex;
-    padding: 10px 20px; /* Set padding for buttons */
+    padding: 10px 10px; /* Set padding for buttons */
     font-size: 16px; /* Set font size for buttons */
     border: none; /* Remove button borders */
     border-radius: 4px; /* Add border radius for rounded corners */
