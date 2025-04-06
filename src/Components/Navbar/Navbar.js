@@ -13,7 +13,6 @@ const Navbar = () => {
     
     if (storedEmail) {
       setIsLoggedIn(true);
-      // Use stored name if available, otherwise extract from email
       setUsername(storedName || storedEmail.split('@')[0]);
     }
   }, []);
@@ -27,72 +26,78 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
-      <div className="nav__logo">
-        <Link to="/">
-          StayHealthy <i style={{ color: "#2190FF" }} className="fa fa-user-md"></i>
-        </Link>
-        <span>.</span>
-      </div>
-      
-      <div className="nav__icon" onClick={handleMenuToggle}>
-        <i className={isMenuOpen ? "fa fa-times" : "fa fa-bars"}></i>
-      </div>
-      
-      <ul className={isMenuOpen ? "nav__links active" : "nav__links"}>
-        <li className="link">
-          <Link to="/">Home</Link>
-        </li>
-        <li className="link">
-          <Link to="/AppointmentFormIC">Appointments</Link>
-        </li>
-        <li className="link">
-          <Link to="/healthblog">Health Blog</Link>
-        </li>
-        <li className="link">
-          <Link to="/reviews">Reviews</Link>
-        </li>
-        <li className="link">
-          <Link to="/InstantConsultation">
-            <button className="btn1">Booking</button>
+    <>
+      <nav className="navbar">
+        <div className="nav__logo">
+          <Link to="/">
+            StayHealthy <i style={{ color: "#2190FF" }} className="fa fa-user-md"></i>
           </Link>
-        </li>
+          <span>.</span>
+        </div>
         
-        {isLoggedIn ? (
-          <>
-            <li className="link welcome-container">
-              <div className="welcome-user">
-                Welcome, {username}
-                <ul className="dropdown-menu">
-                  <li>
-                    <Link to="/profile">Profile</Link>
-                  </li>
-                  <li>
-                    <Link to="/settings">Settings</Link>
-                  </li>
-                </ul>
-              </div>
-              <button className="btn2" onClick={handleLogout}>
-                Logout
-              </button>
-            </li>
-          </>
-        ) : (
-          <>
-            <li className="link">
-              <Link to="/SignUp">
-                <button className="btn1">Sign Up</button>
-              </Link>
-            </li>
-            <li className="link">
-              <Link to="/Login">
-                <button className="btn1">Login</button>
-              </Link>
-            </li>
-          </>
-        )}
-      </ul>
-    </nav>
+        <div className="nav__icon" onClick={handleMenuToggle}>
+          <i className={isMenuOpen ? "fa fa-times" : "fa fa-bars"}></i>
+        </div>
+        
+        <ul className={isMenuOpen ? "nav__links active" : "nav__links"}>
+          <li className="link">
+            <Link to="/">Home</Link>
+          </li>
+          <li className="link">
+            <Link to="/AppointmentFormIC">Appointments</Link>
+          </li>
+          <li className="link">
+            <Link to="/healthblog">Health Blog</Link>
+          </li>
+          <li className="link">
+            <Link to="/reviews">Reviews</Link>
+          </li>
+          <li className="link">
+            <Link to="/InstantConsultation">
+              <button className="btn1">Booking</button>
+            </Link>
+          </li>
+          
+          {isLoggedIn ? (
+            <>
+              <li className="link welcome-container">
+                <div className="welcome-user">
+                  Welcome, {username}
+                  <ul className="dropdown-menu">
+                    <li>
+                      <Link to="/profile">Your Profile</Link>
+                    </li>
+                    <li>
+                      <Link to="/reportslayout">Your Reports</Link>
+                    </li>
+                    <li>
+                      <Link to="/settings">Settings</Link>
+                    </li>
+                  </ul>
+                </div>
+                <button className="btn2" onClick={handleLogout}>
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="link">
+                <Link to="/SignUp">
+                  <button className="btn1">Sign Up</button>
+                </Link>
+              </li>
+              <li className="link">
+                <Link to="/Login">
+                  <button className="btn1">Login</button>
+                </Link>
+              </li>
+            </>
+          )}
+        </ul>
+      </nav>
+      <div className="navbar-spacer"></div>
+    </>
   );
 };
 

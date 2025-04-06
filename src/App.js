@@ -14,7 +14,8 @@ import FindDoctorSearchIC from "./Components/FindDoctorSearchIC/FindDoctorSearch
 import DoctorCardIC from "./Components/DoctorCardIC/DoctorCardIC";
 import AppointmentFormIC from "./Components/AppointmentFormIC/AppointmentFormIC";
 import ReviewForm from "./Components/ReviewForm/ReviewForm";
-
+import ProfileCard from "./Components/ProfileCard/ProfileCard";
+import ReportsLayout from "./Components/ReportsLayout/ReportsLayout";
 
 
 
@@ -31,6 +32,7 @@ function App() {
           <Navbar/>
           
           
+          
 
           {/* Set up the Routes for different pages */}
           <Routes>
@@ -43,7 +45,8 @@ function App() {
         <Route path="/InstantConsultation" element={<InstantConsultation />} />
         <Route path="/FindDoctorSearchIC" element={<FindDoctorSearchIC />} />
         <Route path="/DoctorCardIC" element={<DoctorCardIC />} />
-        {/* <Route path="/profile" element={<ProfileCard />} /> */}
+        <Route path="/profile" element={<ProfileCard />} />
+        <Route path="/reportslayout" element={<ReportsLayout />} /> 
         <Route path="/Login" element={<Login />} />
         
             {/* Home Route - Landing Page */}

@@ -179,7 +179,7 @@ const ProfileCard = () => {
 
           <div className="form-actions">
             <button type="submit" className="btn-save" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save Changes"}
+              {isLoading ? "Saving..." : "Save"}
             </button>
             <button
               type="button"
