@@ -11,7 +11,6 @@ const ReviewForm = () => {
 
   const API_URL = 'https://api.npoint.io/9a5543d36f1460da2f63';
 
-  // Enhanced fetch with data validation
   const fetchDoctors = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -26,7 +25,6 @@ const ReviewForm = () => {
       if (!Array.isArray(data)) throw new Error('Expected an array of doctors');
 
       const validatedDoctors = data.map(doctor => {
-        // Validate doctor object structure
         if (!doctor.id || typeof doctor.id !== 'string') {
           console.warn('Doctor missing ID, generating one');
           doctor.id = `doc-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -40,7 +38,6 @@ const ReviewForm = () => {
           doctor.speciality = 'General';
         }
 
-        // Load review with validation
         const reviewKey = `doctor-${doctor.id}-review`;
         const storedReview = localStorage.getItem(reviewKey);
         
@@ -79,7 +76,6 @@ const ReviewForm = () => {
   useEffect(() => {
     fetchDoctors();
     
-    // Add event listener for storage changes
     const handleStorageChange = () => {
       fetchDoctors();
     };
@@ -88,7 +84,6 @@ const ReviewForm = () => {
     return () => window.removeEventListener('storage', handleStorageChange);
   }, [fetchDoctors]);
 
-  // Enhanced review submission with validation
   const handleReviewSubmit = async (reviewData) => {
     if (!reviewData?.doctorId) {
       console.error('Submission error: Missing doctorId');
@@ -100,7 +95,6 @@ const ReviewForm = () => {
     setApiError(null);
     
     try {
-      // Validate all required fields
       if (!reviewData.review || !reviewData.rating || !reviewData.reviewerName) {
         throw new Error('All review fields are required');
       }
@@ -125,7 +119,6 @@ const ReviewForm = () => {
         reviewerName: reviewData.reviewerName
       };
 
-      // Store with validation
       const storageKey = `doctor-${reviewData.doctorId}-review`;
       const reviewToStore = {
         review: reviewData.review,
@@ -136,7 +129,6 @@ const ReviewForm = () => {
       
       localStorage.setItem(storageKey, JSON.stringify(reviewToStore));
       
-      // Verify write was successful
       const stored = localStorage.getItem(storageKey);
       if (!stored) throw new Error('Failed to save review');
 
@@ -150,7 +142,6 @@ const ReviewForm = () => {
     }
   };
 
-  // Render loading state
   if (isLoading) {
     return (
       <div className="loading-screen">
@@ -160,7 +151,6 @@ const ReviewForm = () => {
     );
   }
 
-  // Render error state
   if (apiError) {
     return (
       <div className="api-error">
@@ -171,7 +161,6 @@ const ReviewForm = () => {
     );
   }
 
-  // Render empty state
   if (doctors.length === 0) {
     return (
       <div className="no-doctors">
@@ -193,7 +182,7 @@ const ReviewForm = () => {
               <th>Doctor Name</th>
               <th>Speciality</th>
               <th>Provide Feedback</th>
-              <th>Status</th>
+              <th>Review Given</th>
             </tr>
           </thead>
           <tbody>
@@ -215,7 +204,7 @@ const ReviewForm = () => {
                 <td>
                   {doctor.review ? (
                     <span className="status-reviewed">
-                      <span className="status-icon">✓</span> Reviewed
+                      {doctor.rating} ★
                       {doctor.lastReviewed && (
                         <span className="review-date">
                           {new Date(doctor.lastReviewed).toLocaleDateString()}

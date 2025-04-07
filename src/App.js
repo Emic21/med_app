@@ -20,6 +20,7 @@ import ReportsLayout from "./Components/ReportsLayout/ReportsLayout";
 
 
 
+
 // Function component for the main App
 function App() {
 
@@ -48,7 +49,7 @@ function App() {
         <Route path="/profile" element={<ProfileCard />} />
         <Route path="/reportslayout" element={<ReportsLayout />} /> 
         <Route path="/Login" element={<Login />} />
-        
+       
             {/* Home Route - Landing Page */}
         <Route path="/" element={<LandingPage />} />
         

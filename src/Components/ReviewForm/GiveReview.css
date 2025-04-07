@@ -8,7 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-start; /* Changed from center to flex-start */
-  z-index: 1000;
+  z-index: 1100;
   overflow-y: auto; /* Enable scrolling if needed */
   padding: 20px 0; /* Add some vertical padding */
 }
@@ -22,6 +22,7 @@
   position: relative;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 20px 0; /* Add margin for better spacing */
+  margin-top: 120px;
   display: flex;
   flex-direction: column; /* Stack children vertically */
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './AppointmentFormIC.css';
 
@@ -7,7 +7,6 @@ const AppointmentFormIC = ({
   doctorSpeciality,
   onSubmit,
   onCancel,
-  availableSlots = [],
   loading = false
 }) => {
   const [formData, setFormData] = useState({
@@ -18,6 +17,45 @@ const AppointmentFormIC = ({
   });
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [availableSlots, setAvailableSlots] = useState([]);
+  const [isLoadingSlots, setIsLoadingSlots] = useState(false);
+
+  const API_URL = 'https://api.npoint.io/9a5543d36f1460da2f63';
+
+  // Fetch available slots when date changes
+  useEffect(() => {
+    const fetchAvailableSlots = async () => {
+      if (!formData.selectedDate) return;
+      
+      setIsLoadingSlots(true);
+      setError('');
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+          throw new Error('Failed to fetch available slots');
+        }
+        const data = await response.json();
+        
+        // Find the doctor in the API response
+        const doctor = data.find(doc => doc.name === doctorName);
+        if (!doctor) {
+          throw new Error('Doctor not found in available slots');
+        }
+        
+        // Use the doctor's available slots or default slots
+        const slots = doctor.availableSlots || ['10:00 AM', '11:00 AM', '2:00 PM', '3:00 PM'];
+        setAvailableSlots(slots);
+      } catch (err) {
+        console.error('Error fetching slots:', err);
+        setError('Failed to load available time slots');
+        setAvailableSlots([]);
+      } finally {
+        setIsLoadingSlots(false);
+      }
+    };
+
+    fetchAvailableSlots();
+  }, [formData.selectedDate, doctorName]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,7 +64,6 @@ const AppointmentFormIC = ({
       [name]: value
     }));
     
-    // Clear error when user starts typing
     if (error) setError('');
   };
 
@@ -80,7 +117,9 @@ const AppointmentFormIC = ({
         name: formData.name.trim(),
         phoneNumber: formData.phoneNumber.trim(),
         slot: formData.selectedSlot,
-        date: formData.selectedDate
+        date: formData.selectedDate,
+        doctorName,
+        doctorSpeciality
       };
 
       const success = await onSubmit(submissionData);
@@ -102,123 +141,111 @@ const AppointmentFormIC = ({
 
   return (
     <div className="appointment-form-container">
-    <form onSubmit={handleSubmit} className="appointment-form" noValidate>
-      <h2>Book Appointment with {doctorName}</h2>
-      <p className="speciality-text">Speciality: {doctorSpeciality}</p>
+      <form onSubmit={handleSubmit} className="appointment-form" noValidate>
+        <h2>Book Appointment with {doctorName}</h2>
+        <p className="speciality-text">Speciality: {doctorSpeciality}</p>
 
-      {error && (
-        <div className="error-message" role="alert">
-          <span className="error-icon">⚠️</span>
-          <span>{error}</span>
-        </div>
-      )}
-
-      {successMessage && (
-        <div className="success-message" role="status">
-          <span className="success-icon">✓</span>
-          <span>{successMessage}</span>
-        </div>
-      )}
-
-      <div className="form-group">
-        <label htmlFor="name">Full Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          aria-label="Enter your full name"
-          aria-invalid={!!error && !formData.name}
-          disabled={loading}
-        />
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="phoneNumber">Phone Number:</label>
-        <input
-          type="tel"
-          id="phoneNumber"
-          name="phoneNumber"
-          value={formData.phoneNumber}
-          onChange={handleChange}
-          required
-          pattern="[0-9]{10}"
-          maxLength="10"
-          aria-label="Enter your 10-digit phone number"
-          aria-invalid={!!error && !/^\d{10}$/.test(formData.phoneNumber)}
-          disabled={loading}
-        />
-        <small className="hint-text">10 digits only</small>
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="selectedDate">Appointment Date:</label>
-        <input
-          type="date"
-          id="selectedDate"
-          name="selectedDate"
-          value={formData.selectedDate}
-          onChange={handleChange}
-          required
-          min={new Date().toISOString().split('T')[0]}
-          aria-label="Select appointment date"
-          aria-invalid={!!error && !formData.selectedDate}
-          disabled={loading}
-        />
-      </div>
-
-      <div className="form-group">
-        <label htmlFor="selectedSlot">Time Slot:</label>
-        <select
-          id="selectedSlot"
-          name="selectedSlot"
-          value={formData.selectedSlot}
-          onChange={handleChange}
-          required
-          disabled={loading || availableSlots.length === 0}
-          aria-label="Select time slot"
-          aria-invalid={!!error && !formData.selectedSlot}
-        >
-          <option value="">Select a time slot</option>
-          {availableSlots.map((slot, index) => (
-            <option key={index} value={slot}>
-              {slot}
-            </option>
-          ))}
-        </select>
-        {availableSlots.length === 0 && (
-          <p className="no-slots-message">No available slots at this time</p>
+        {error && (
+          <div className="error-message" role="alert">
+            <span className="error-icon">⚠️</span>
+            <span>{error}</span>
+          </div>
         )}
-      </div>
 
-      <div className="form-actions">
-        <button
-          type="submit"
-          className="submit-button"
-          disabled={loading}
-          aria-busy={loading}
-        >
-          {loading ? (
-            <>
-              <span className="loading-spinner small"></span>
-              Booking...
-            </>
+        {successMessage && (
+          <div className="success-message" role="status">
+            <span className="success-icon">✓</span>
+            <span>{successMessage}</span>
+          </div>
+        )}
+
+        <div className="form-group">
+          <label htmlFor="name">Full Name:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            disabled={loading}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="phoneNumber">Phone Number:</label>
+          <input
+            type="tel"
+            id="phoneNumber"
+            name="phoneNumber"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            required
+            pattern="[0-9]{10}"
+            maxLength="10"
+            disabled={loading}
+          />
+          <small className="hint-text">10 digits only</small>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="selectedDate">Appointment Date:</label>
+          <input
+            type="date"
+            id="selectedDate"
+            name="selectedDate"
+            value={formData.selectedDate}
+            onChange={handleChange}
+            required
+            min={new Date().toISOString().split('T')[0]}
+            disabled={loading}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="selectedSlot">Time Slot:</label>
+          {isLoadingSlots ? (
+            <div className="loading-slots">Loading available slots...</div>
           ) : (
-            'Book Appointment'
+            <select
+              id="selectedSlot"
+              name="selectedSlot"
+              value={formData.selectedSlot}
+              onChange={handleChange}
+              required
+              disabled={loading || isLoadingSlots || availableSlots.length === 0}
+            >
+              <option value="">Select a time slot</option>
+              {availableSlots.map((slot, index) => (
+                <option key={index} value={slot}>
+                  {slot}
+                </option>
+              ))}
+            </select>
           )}
-        </button>
-        <button
-          type="button"
-          onClick={onCancel}
-          className="cancel-button"
-          disabled={loading}
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
+          {availableSlots.length === 0 && formData.selectedDate && !isLoadingSlots && (
+            <p className="no-slots-message">No available slots for this date</p>
+          )}
+        </div>
+
+        <div className="form-actions">
+          <button
+            type="submit"
+            className="submit-button"
+            disabled={loading || isLoadingSlots}
+          >
+            {loading ? 'Booking...' : 'Book Appointment'}
+          </button>
+          <button
+            type="button"
+            onClick={onCancel}
+            className="cancel-button"
+            disabled={loading}
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
@@ -228,12 +255,10 @@ AppointmentFormIC.propTypes = {
   doctorSpeciality: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  availableSlots: PropTypes.arrayOf(PropTypes.string),
   loading: PropTypes.bool
 };
 
 AppointmentFormIC.defaultProps = {
-  availableSlots: [],
   loading: false
 };
 
