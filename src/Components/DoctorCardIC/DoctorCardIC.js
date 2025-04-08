@@ -301,7 +301,7 @@ const DoctorCardIC = ({ name, speciality, experience, ratings, profilePic }) => 
                   doctorSpeciality={speciality}
                   onSubmit={handleFormSubmit}
                   onCancel={handleCancelAppointment}
-                  availableSlots={['10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM']}
+                  availableSlots={['9:00 AM','10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM']}
                   loading={loading}
                 />
               )}

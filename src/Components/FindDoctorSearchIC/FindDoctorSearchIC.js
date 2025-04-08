@@ -72,7 +72,7 @@ const FindDoctorSearchIC = ({ onSearch, onSpecialtySelect }) => {
             <div className="findiconimg">
               <img
                 className="findIcon"
-                src={process.env.PUBLIC_URL + '/images/search.svg'}
+                src={process.env.PUBLIC_URL + '/search.svg'}
                 alt="Search"
               />
             </div>

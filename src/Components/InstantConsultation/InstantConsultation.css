@@ -1,7 +1,7 @@
 .searchpage-container {
     max-width: 1200px;
     margin: auto;
-    margin-top: %;
+    margin-top: 5%;
     color: #414146;
     padding: 0 20px;
     position: static;
@@ -40,22 +40,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    height: 200px;
   }
   
   .spinner {
     border: 4px solid rgba(0, 0, 0, 0.1);
-    border-left-color: #09f;
     border-radius: 50%;
+    border-top: 4px solid #3498db;
     width: 40px;
     height: 40px;
     animation: spin 1s linear infinite;
+    margin-bottom: 20px;
   }
   
   @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
   
   .search-bar {

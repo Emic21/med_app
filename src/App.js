@@ -20,7 +20,6 @@ import ReportsLayout from "./Components/ReportsLayout/ReportsLayout";
 
 
 
-
 // Function component for the main App
 function App() {
 
