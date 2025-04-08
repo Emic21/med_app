@@ -19,17 +19,21 @@ const Navbar = () => {
 
   const handleMenuToggle = () => setIsMenuOpen(!isMenuOpen);
 
+  // Close menu when any link is clicked
+  const closeMenu = () => setIsMenuOpen(false);
+
   const handleLogout = () => {
     sessionStorage.clear();
     localStorage.removeItem("doctorData");
     window.location.reload();
+    closeMenu();
   };
 
   return (
     <>
       <nav className="navbar">
         <div className="nav__logo">
-          <Link to="/">
+          <Link to="/" onClick={closeMenu}>
             StayHealthy <i style={{ color: "#2190FF" }} className="fa fa-user-md"></i>
           </Link>
           <span>.</span>
@@ -41,19 +45,19 @@ const Navbar = () => {
         
         <ul className={isMenuOpen ? "nav__links active" : "nav__links"}>
           <li className="link">
-            <Link to="/">Home</Link>
+            <Link to="/" onClick={closeMenu}>Home</Link>
           </li>
           <li className="link">
-            <Link to="/AppointmentFormIC">Appointments</Link>
+            <Link to="/AppointmentFormIC" onClick={closeMenu}>Appointments</Link>
           </li>
           <li className="link">
-            <Link to="/healthblog">Health Blog</Link>
+            <Link to="/healthblog" onClick={closeMenu}>Health Blog</Link>
           </li>
           <li className="link">
-            <Link to="/reviews">Reviews</Link>
+            <Link to="/reviews" onClick={closeMenu}>Reviews</Link>
           </li>
           <li className="link">
-            <Link to="/InstantConsultation">
+            <Link to="/InstantConsultation" onClick={closeMenu}>
               <button className="btn1">Booking</button>
             </Link>
           </li>
@@ -65,13 +69,13 @@ const Navbar = () => {
                   Welcome, {username}
                   <ul className="dropdown-menu">
                     <li>
-                      <Link to="/profile">Your Profile</Link>
+                      <Link to="/profile" onClick={closeMenu}>Your Profile</Link>
                     </li>
                     <li>
-                      <Link to="/reportslayout">Your Reports</Link>
+                      <Link to="/reportslayout" onClick={closeMenu}>Your Reports</Link>
                     </li>
                     <li>
-                      <Link to="/settings">Settings</Link>
+                      <Link to="/settings" onClick={closeMenu}>Settings</Link>
                     </li>
                   </ul>
                 </div>
@@ -83,12 +87,12 @@ const Navbar = () => {
           ) : (
             <>
               <li className="link">
-                <Link to="/SignUp">
+                <Link to="/SignUp" onClick={closeMenu}>
                   <button className="btn1">Sign Up</button>
                 </Link>
               </li>
               <li className="link">
-                <Link to="/Login">
+                <Link to="/Login" onClick={closeMenu}>
                   <button className="btn1">Login</button>
                 </Link>
               </li>

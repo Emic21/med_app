@@ -1,5 +1,6 @@
-import React from "react"; // Importing React
-import "./LandingPage.css"; // Importing CSS styles
+import React from "react";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import "./LandingPage.css";
 
 const LandingPage = () => {
   return (
@@ -24,9 +25,9 @@ const LandingPage = () => {
             that walks through our door.
           </h4>
           
-          <a href="#services">
+          <Link to="/InstantConsultation">
             <button className="button">Get Started</button>
-          </a>
+          </Link>
         </div>
       </div>
     </section>
