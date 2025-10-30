@@ -6,51 +6,67 @@
 
 .hero-section {
     min-height: 100vh;
-    padding: 8rem 1rem 2rem;
+    padding: 2rem 1rem;
     background-color: transparent;
     position: relative;
     overflow: hidden;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
 }
 
-.hero-section .flex-hero {
-    flex-direction: column;
-    gap: 1.5rem;
-    text-align: center;
+.container {
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
 }
 
+.hero-section .flex-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
 .hero-section .flex-hero h1 {
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
     font-weight: 900;
-    line-height: 1.2;
-    padding: 0 1rem;
+    line-height: 1.1;
+    margin: 0;
 }
 
 .text-gradient {
-    background: linear-gradient(45deg,#2190FF 2.34%,#b673f8 100.78%);
+    background: linear-gradient(45deg, #2190FF 2.34%, #b673f8 100.78%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    display: block;
+    margin-top: 0.5rem;
 }
 
 .hero-section h4 {
-    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-size: clamp(1rem, 3vw, 1.3rem);
     font-weight: 300;
     text-align: center;
     color: #969BA5;
     line-height: 1.6;
-    padding: 0 1rem;
     max-width: 800px;
     margin: 0 auto;
 }
 
-.hero-section .button {
-    padding: 0.8rem 2rem;
+/* Button Styles */
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.button {
+    padding: 0.8rem 2.5rem;
     border-radius: 25px;
     background-color: #2190FF;
     color: #fff;
@@ -59,148 +75,103 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    display: inline-block;
     min-width: 180px;
-    max-width: 250px;
-    width: auto;
-    margin: 1rem auto;
-}
-
-.hero-section .button-container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 1rem;
-}
-
-.hero-section div:nth-child(2) {
-    margin-top: 2rem;
-}
-
-.hero-section .image {
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 0;
-    max-width: 100%;
-    margin: 0 auto;
-}
-
-.hero-section .image img {
-    max-width: 100%;
-    height: auto;
-}
-
-/* Lists and Links */
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-a {
     text-decoration: none;
-    color: #333;
-    transition: color 0.3s ease;
-}
-
-h1, h2 {
-    line-height: 1.3;
-    margin: 15px 0;
-}
-
-/* Buttons */
-button {
-    transition: all 0.3s ease;
-    font-size: 1em;
-    padding: 1em;
-    border-radius: 5px;
-    margin-top: 10px;
-    border: none;
-    cursor: pointer;
+    display: inline-block;
 }
 
 .button:hover {
     transform: scale(0.98);
     background-color: #1a7cdd;
+    box-shadow: 0 4px 12px rgba(33, 144, 255, 0.3);
 }
 
-/* Blobs */
-.flex-hero .blob-cont {
-    justify-content: center;
-    align-items: center;
+/* Blob Background Styles */
+.blob-cont {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
-    z-index: -1;
+    z-index: 1;
+    overflow: hidden;
 }
 
 .blob {
     border-radius: 50%;
     filter: blur(60px);
-    opacity: 0.7;
+    opacity: 0.6;
+    position: absolute;
+    animation: blobani 8s infinite ease-in-out;
 }
 
 .blue {
-    background-color: #2937a392;
-    position: absolute;
+    background: linear-gradient(45deg, #2190FF, #b673f8);
     top: 20%;
     left: 10%;
-    height: clamp(100px, 20vw, 200px);
-    width: clamp(150px, 25vw, 250px);
-    animation: blobani 8s infinite ease;
+    height: clamp(120px, 25vw, 250px);
+    width: clamp(120px, 25vw, 250px);
 }
 
 .blue1 {
-    background-color: #2937a392;
-    position: absolute;
+    background: linear-gradient(45deg, #b673f8, #2190FF);
     bottom: 20%;
     right: 10%;
     height: clamp(100px, 20vw, 200px);
-    width: clamp(150px, 25vw, 250px);
-    animation: blobani 8s infinite ease;
+    width: clamp(100px, 20vw, 200px);
+    animation-delay: -4s;
 }
 
 @keyframes blobani {
-    0% { transform: scale(1) translate(0, 0); }
-    25% { transform: scale(1.1) translate(10px, 10px); }
-    50% { transform: scale(1.2) translate(-5px, 5px); }
-    75% { transform: scale(1.1) translate(5px, -5px); }
-    100% { transform: scale(1) translate(0, 0); }
+    0%, 100% {
+        transform: translate(0, 0) scale(1);
+    }
+    25% {
+        transform: translate(20px, -20px) scale(1.1);
+    }
+    50% {
+        transform: translate(-15px, 15px) scale(1.05);
+    }
+    75% {
+        transform: translate(-10px, -15px) scale(1.1);
+    }
 }
 
 /* Tablet Styles */
-@media screen and (min-width: 768px) and (max-width: 1023px) {
+@media screen and (min-width: 768px) {
     .hero-section {
-        padding: 10rem 2rem 3rem;
+        padding: 4rem 2rem;
+    }
+    
+    .hero-section .flex-hero {
+        gap: 2rem;
     }
     
     .hero-section .flex-hero h1 {
-        font-size: clamp(3rem, 6vw, 4.5rem);
+        font-size: clamp(3rem, 6vw, 4rem);
     }
     
     .hero-section h4 {
         font-size: 1.2rem;
-        padding: 0 2rem;
+        padding: 0 1rem;
     }
     
     .blue {
         top: 15%;
-        left: 5%;
+        left: 15%;
     }
     
     .blue1 {
         bottom: 15%;
-        right: 5%;
+        right: 15%;
     }
 }
 
 /* Desktop Styles */
 @media screen and (min-width: 1024px) {
     .hero-section {
-        padding: 12rem 2rem 4rem;
+        padding: 6rem 2rem;
     }
     
     .hero-section .flex-hero h1 {
@@ -208,34 +179,35 @@ button {
     }
     
     .hero-section h4 {
-        font-size: 1.4rem;
-        padding: 0 14rem;
+        font-size: 1.3rem;
+        padding: 0 2rem;
     }
     
-    .hero-section .button {
-        width: 200px;
+    .button {
+        padding: 1rem 3rem;
+        font-size: 1.1rem;
     }
     
     .blue {
-        top: 10%;
-        left: 15%;
-        height: 200px;
+        top: 20%;
+        left: 20%;
+        height: 250px;
         width: 250px;
     }
     
     .blue1 {
-        bottom: 10%;
-        right: 15%;
+        bottom: 20%;
+        right: 20%;
         height: 200px;
-        width: 250px;
+        width: 200px;
     }
 }
 
 /* Small Mobile Styles */
 @media screen and (max-width: 480px) {
     .hero-section {
-        padding: 6rem 1rem 2rem;
-        min-height: 100svh; /* Use small viewport height for mobile */
+        padding: 1rem;
+        min-height: 100svh;
     }
     
     .hero-section .flex-hero {
@@ -244,44 +216,48 @@ button {
     
     .hero-section .flex-hero h1 {
         font-size: 2.2rem;
-        padding: 0 0.5rem;
+        line-height: 1.2;
+    }
+    
+    .text-gradient {
+        margin-top: 0.25rem;
     }
     
     .hero-section h4 {
-        font-size: 0.9rem;
-        padding: 0 0.5rem;
+        font-size: 0.95rem;
+        line-height: 1.5;
     }
     
-    .hero-section .button {
-        padding: 0.7rem 1.5rem;
+    .button {
+        padding: 0.7rem 2rem;
         min-width: 160px;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
     }
     
     .blue {
-        top: 25%;
+        top: 10%;
         left: 5%;
-        height: 80px;
-        width: 120px;
+        height: 100px;
+        width: 100px;
     }
     
     .blue1 {
-        bottom: 25%;
+        bottom: 10%;
         right: 5%;
         height: 80px;
-        width: 120px;
+        width: 80px;
     }
 }
 
 /* Large Desktop Styles */
 @media screen and (min-width: 1440px) {
     .hero-section .flex-hero h1 {
-        font-size: 5rem;
+        font-size: 4.5rem;
     }
     
     .hero-section h4 {
-        font-size: 1.5rem;
-        padding: 0 18rem;
+        font-size: 1.4rem;
+        max-width: 900px;
     }
 }
 
@@ -294,17 +270,21 @@ button {
     .button {
         transition: none;
     }
+    
+    .button:hover {
+        transform: none;
+    }
 }
 
-/* Orientation specific styles */
+/* Orientation specific styles for mobile */
 @media screen and (max-height: 600px) and (orientation: landscape) {
     .hero-section {
-        padding: 6rem 1rem 1rem;
+        padding: 1rem;
         min-height: auto;
     }
     
     .hero-section .flex-hero {
-        gap: 1rem;
+        gap: 0.8rem;
     }
     
     .hero-section .flex-hero h1 {
@@ -313,16 +293,34 @@ button {
     
     .hero-section h4 {
         font-size: 0.9rem;
+        max-width: 600px;
+    }
+    
+    .button {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
     }
 }
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
     .text-gradient {
-        background: linear-gradient(45deg, #0066cc 2.34%, #9933cc 100.78%);
+        background: linear-gradient(45deg, #0066cc 2.34%, #6600cc 100.78%);
     }
     
     .hero-section h4 {
-        color: #666;
+        color: #555;
+    }
+    
+    .button {
+        background-color: #0066cc;
+        border: 2px solid #000;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .hero-section h4 {
+        color: #b0b0b0;
     }
 }
