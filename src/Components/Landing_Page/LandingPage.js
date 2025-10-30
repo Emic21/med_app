@@ -1,21 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom";
 import "./LandingPage.css";
 
 const LandingPage = () => {
   return (
     <section className="hero-section">
-      <div>
+      <div className="container">
         <div data-aos="fade-up" className="flex-hero">
           <h1>
-            Your Health<br />
+            Your Health
+            <br />
             <span className="text-gradient">Our Responsibility</span>
           </h1>
           
+          {/* Blob Background Elements */}
           <div className="blob-cont">
             <div className="blue blob"></div>
-          </div>
-          <div className="blob-cont">
             <div className="blue1 blob"></div>
           </div>
           
@@ -25,9 +25,11 @@ const LandingPage = () => {
             that walks through our door.
           </h4>
           
-          <Link to="/InstantConsultation">
-            <button className="button">Get Started</button>
-          </Link>
+          <div className="button-container">
+            <Link to="/InstantConsultation">
+              <button className="button">Get Started</button>
+            </Link>
+          </div>
         </div>
       </div>
     </section>
