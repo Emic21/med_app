@@ -9,7 +9,7 @@
     padding: 2rem 1rem;
     background-color: transparent;
     position: relative;
-    overflow: hidden;
+    overflow: hidden; /* Keep hidden on main container */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -31,11 +31,21 @@
     z-index: 2;
 }
 
+.heading-container {
+    margin-bottom: 0.5rem;
+}
+
 .hero-section .flex-hero h1 {
-    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-size: clamp(2.2rem, 8vw, 4.5rem);
     font-weight: 900;
     line-height: 1.1;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-section .flex-hero h1 br {
+    display: none;
 }
 
 .text-gradient {
@@ -43,8 +53,9 @@
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    display: block;
-    margin-top: 0.5rem;
+    margin-top: 0.2rem;
+    font-size: inherit;
+    line-height: 1.1;
 }
 
 .hero-section h4 {
@@ -57,7 +68,6 @@
     margin: 0 auto;
 }
 
-/* Button Styles */
 .button-container {
     display: flex;
     justify-content: center;
@@ -86,7 +96,7 @@
     box-shadow: 0 4px 12px rgba(33, 144, 255, 0.3);
 }
 
-/* Blob Background Styles */
+/* FIXED Blob Background Styles */
 .blob-cont {
     position: absolute;
     top: 0;
@@ -95,7 +105,7 @@
     height: 100%;
     pointer-events: none;
     z-index: 1;
-    overflow: hidden;
+    overflow: visible; /* FIX: Changed from hidden */
 }
 
 .blob {
@@ -138,6 +148,66 @@
     }
 }
 
+/* Mobile Styles */
+@media screen and (max-width: 480px) {
+    .hero-section {
+        padding: 1rem;
+        min-height: 100svh;
+    }
+    
+    .hero-section .flex-hero {
+        gap: 1rem;
+    }
+    
+    .heading-container {
+        margin-bottom: 0.2rem;
+    }
+    
+    .hero-section .flex-hero h1 {
+        font-size: 2.2rem;
+        line-height: 1.1;
+    }
+    
+    .text-gradient {
+        margin-top: 0.1rem;
+        line-height: 1.1;
+    }
+    
+    .hero-section h4 {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-top: 0.5rem;
+    }
+    
+    .button {
+        padding: 0.7rem 2rem;
+        min-width: 160px;
+        font-size: 0.95rem;
+        margin-top: 0.5rem;
+    }
+    
+    /* Fixed Mobile Blobs */
+    .blob-cont {
+        overflow: visible;
+    }
+    
+    .blue {
+        top: 15%;
+        left: 5%;
+        height: 120px;
+        width: 120px;
+        filter: blur(50px);
+    }
+    
+    .blue1 {
+        bottom: 15%;
+        right: 5%;
+        height: 100px;
+        width: 100px;
+        filter: blur(50px);
+    }
+}
+
 /* Tablet Styles */
 @media screen and (min-width: 768px) {
     .hero-section {
@@ -145,11 +215,19 @@
     }
     
     .hero-section .flex-hero {
-        gap: 2rem;
+        gap: 1.5rem;
+    }
+    
+    .heading-container {
+        margin-bottom: 0.3rem;
     }
     
     .hero-section .flex-hero h1 {
         font-size: clamp(3rem, 6vw, 4rem);
+    }
+    
+    .text-gradient {
+        margin-top: 0.3rem;
     }
     
     .hero-section h4 {
@@ -158,13 +236,17 @@
     }
     
     .blue {
-        top: 15%;
-        left: 15%;
+        top: 20%;
+        left: 10%;
+        height: 180px;
+        width: 180px;
     }
     
     .blue1 {
-        bottom: 15%;
-        right: 15%;
+        bottom: 20%;
+        right: 10%;
+        height: 150px;
+        width: 150px;
     }
 }
 
@@ -174,8 +256,20 @@
         padding: 6rem 2rem;
     }
     
+    .hero-section .flex-hero {
+        gap: 2rem;
+    }
+    
+    .heading-container {
+        margin-bottom: 0.5rem;
+    }
+    
     .hero-section .flex-hero h1 {
         font-size: 4rem;
+    }
+    
+    .text-gradient {
+        margin-top: 0.5rem;
     }
     
     .hero-section h4 {
@@ -189,138 +283,25 @@
     }
     
     .blue {
-        top: 20%;
-        left: 20%;
+        top: 25%;
+        left: 15%;
         height: 250px;
         width: 250px;
+        filter: blur(70px);
     }
     
     .blue1 {
-        bottom: 20%;
-        right: 20%;
+        bottom: 25%;
+        right: 15%;
         height: 200px;
         width: 200px;
+        filter: blur(70px);
     }
 }
 
-/* Small Mobile Styles */
-@media screen and (max-width: 480px) {
-    .hero-section {
-        padding: 1rem;
-        min-height: 100svh;
-    }
-    
-    .hero-section .flex-hero {
-        gap: 1rem;
-    }
-    
-    .hero-section .flex-hero h1 {
-        font-size: 2.2rem;
-        line-height: 1.2;
-    }
-    
-    .text-gradient {
-        margin-top: 0.25rem;
-    }
-    
-    .hero-section h4 {
-        font-size: 0.95rem;
-        line-height: 1.5;
-    }
-    
-    .button {
-        padding: 0.7rem 2rem;
-        min-width: 160px;
-        font-size: 0.95rem;
-    }
-    
-    .blue {
-        top: 10%;
-        left: 5%;
-        height: 100px;
-        width: 100px;
-    }
-    
-    .blue1 {
-        bottom: 10%;
-        right: 5%;
-        height: 80px;
-        width: 80px;
-    }
-}
-
-/* Large Desktop Styles */
-@media screen and (min-width: 1440px) {
-    .hero-section .flex-hero h1 {
-        font-size: 4.5rem;
-    }
-    
-    .hero-section h4 {
-        font-size: 1.4rem;
-        max-width: 900px;
-    }
-}
-
-/* Reduced motion for accessibility */
+/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
     .blob {
         animation: none;
-    }
-    
-    .button {
-        transition: none;
-    }
-    
-    .button:hover {
-        transform: none;
-    }
-}
-
-/* Orientation specific styles for mobile */
-@media screen and (max-height: 600px) and (orientation: landscape) {
-    .hero-section {
-        padding: 1rem;
-        min-height: auto;
-    }
-    
-    .hero-section .flex-hero {
-        gap: 0.8rem;
-    }
-    
-    .hero-section .flex-hero h1 {
-        font-size: 2rem;
-    }
-    
-    .hero-section h4 {
-        font-size: 0.9rem;
-        max-width: 600px;
-    }
-    
-    .button {
-        padding: 0.6rem 1.5rem;
-        font-size: 0.9rem;
-    }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .text-gradient {
-        background: linear-gradient(45deg, #0066cc 2.34%, #6600cc 100.78%);
-    }
-    
-    .hero-section h4 {
-        color: #555;
-    }
-    
-    .button {
-        background-color: #0066cc;
-        border: 2px solid #000;
-    }
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-    .hero-section h4 {
-        color: #b0b0b0;
     }
 }
