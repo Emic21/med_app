@@ -7,11 +7,12 @@ const LandingPage = () => {
     <section className="hero-section">
       <div className="container">
         <div data-aos="fade-up" className="flex-hero">
-          <h1>
-            Your Health
-            <br />
-            <span className="text-gradient">Our Responsibility</span>
-          </h1>
+          <div className="heading-container">
+            <h1>
+              Your Health
+              <span className="text-gradient">Our Responsibility</span>
+            </h1>
+          </div>
           
           {/* Blob Background Elements */}
           <div className="blob-cont">
