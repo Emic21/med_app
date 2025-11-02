@@ -2,6 +2,8 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .loading-screen {
@@ -10,6 +12,7 @@
   align-items: center;
   justify-content: center;
   height: 200px;
+  width: 100%;
 }
 
 .spinner {
@@ -29,10 +32,12 @@
 
 .api-error, .no-doctors {
   text-align: center;
-  padding: 40px;
+  padding: 40px 20px;
   background-color: #f8f9fa;
   border-radius: 8px;
   margin: 20px;
+  width: calc(100% - 40px);
+  box-sizing: border-box;
 }
 
 .api-error button {
@@ -43,23 +48,29 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  max-width: 200px;
+  width: 100%;
 }
 
 .table-responsive {
   overflow-x: auto;
   margin: 20px 0;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 .doctors-table {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
+  min-width: 600px; /* Minimum width for table to prevent excessive squishing */
 }
 
 .doctors-table th, .doctors-table td {
   padding: 12px 15px;
   text-align: left;
   border-bottom: 1px solid #ddd;
+  box-sizing: border-box;
 }
 
 .doctors-table th {
@@ -75,6 +86,8 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s;
+  width: 100%;
+  max-width: 120px;
 }
 
 .feedback-btn:hover:not(:disabled) {
@@ -91,6 +104,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  flex-wrap: wrap;
 }
 
 .status-pending {
@@ -98,9 +112,9 @@
 }
 
 .review-date {
-  margin-left: 10px;
   color: #7f8c8d;
   font-size: 0.9em;
+  margin-top: 2px;
 }
 
 /* Modal styles */
@@ -115,16 +129,20 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .review-modal {
   background-color: white;
   padding: 30px;
   border-radius: 8px;
-  width: 90%;
+  width: 100%;
   max-width: 600px;
   position: relative;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  margin: 0 auto;
 }
 
 .close-btn {
@@ -137,10 +155,12 @@
   cursor: pointer;
   padding: 5px;
   color: #666;
+  width: auto;
 }
 
 .doctor-info {
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .speciality {
@@ -151,18 +171,21 @@
 /* Form styles */
 .form-group {
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
+  width: 100%;
 }
 
 .star-rating {
   display: flex;
   gap: 10px;
   margin: 10px 0;
+  flex-wrap: wrap;
 }
 
 .star {
@@ -170,6 +193,7 @@
   font-size: 28px;
   color: #ccc;
   transition: color 0.2s;
+  flex-shrink: 0;
 }
 
 .star.filled {
@@ -184,17 +208,20 @@ textarea {
   resize: vertical;
   min-height: 120px;
   font-family: inherit;
+  box-sizing: border-box;
 }
 
 .error-message {
   color: #e74c3c;
   margin: 10px 0;
+  width: 100%;
 }
 
 .form-actions {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
 }
 
 .submit-btn, .cancel-btn {
@@ -203,6 +230,8 @@ textarea {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.2s;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .submit-btn {
@@ -222,13 +251,107 @@ textarea {
   cursor: not-allowed;
 }
 
+/* Mobile First Responsive Design */
 @media (max-width: 768px) {
+  .review-container {
+    padding: 15px 10px;
+  }
+  
   .doctors-table {
-    font-size: 0.9em;
+    font-size: 0.85em;
+    min-width: 500px;
   }
   
   .doctors-table th, .doctors-table td {
-    padding: 8px 10px;
+    padding: 8px 6px;
+  }
+  
+  .review-modal {
+    padding: 20px 15px;
+    margin: 10px;
+  }
+  
+  .star {
+    font-size: 24px;
+  }
+  
+  .api-error, .no-doctors {
+    margin: 10px;
+    padding: 30px 15px;
+    width: calc(100% - 20px);
+  }
+  
+  .status-reviewed {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  
+  .review-date {
+    margin-left: 0;
   }
 }
 
+@media (max-width: 480px) {
+  .review-container {
+    padding: 10px 5px;
+  }
+  
+  .doctors-table {
+    font-size: 0.8em;
+    min-width: 450px;
+  }
+  
+  .doctors-table th, .doctors-table td {
+    padding: 6px 4px;
+  }
+  
+  .feedback-btn {
+    padding: 6px 12px;
+    font-size: 0.85em;
+    max-width: 100px;
+  }
+  
+  .star {
+    font-size: 20px;
+  }
+  
+  .review-modal {
+    padding: 15px 10px;
+  }
+  
+  .form-actions {
+    gap: 8px;
+  }
+  
+  .submit-btn, .cancel-btn {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+/* Prevent horizontal scroll on entire page */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Ensure all containers don't cause overflow */
+* {
+  box-sizing: border-box;
+}
+
+/* Specific fixes for table responsiveness */
+@media (max-width: 768px) {
+  .table-responsive {
+    margin: 15px -10px;
+    width: calc(100% + 20px);
+  }
+}
+
+@media (max-width: 480px) {
+  .table-responsive {
+    margin: 10px -5px;
+    width: calc(100% + 10px);
+  }
+}
